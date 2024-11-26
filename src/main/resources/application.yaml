@@ -1,0 +1,85 @@
+### GENERAL ###
+server:
+  servlet.context-path: /servico/exemplo/api
+  compression.enabled: true
+  error.include-message: always
+  port: 8080
+
+spring:
+  application.name: servico-exemplo
+  main.web-application-type: SERVLET
+  threads.virtual: true
+  profiles.default: local
+  profiles.active: local
+
+  ### DATASOURCE ###
+  datasource:
+    username: admin
+    password: admin
+    url: jdbc:sqlserver://localhost:1433
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 20000
+  jpa:
+    hibernate.ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+    properties.hibernate:
+      format_sql: true
+      jakarta.persistence.sharedCache.mode: UNSPECIFIED
+
+  liquibase:
+    enabled: true
+    liquibase-schema: exemplo
+
+### MONITORING ###
+management:
+  server.port: 8080
+  security.enabled: false
+  ssl.enabled: false
+  endpoint:
+    health.enabled: true
+    metrics.enabled: true
+    prometheus.enabled: true
+    info.enabled: true
+    actuator.enabled: true
+  endpoints.web.exposure.include: "*"
+  metrics.export.prometheus.enabled: true
+
+logging:
+  level.root: INFO
+  config: classpath:logback-spring.xml
+
+springdoc:
+  api-docs:
+    path: /openapi
+  swagger-ui:
+    path: /api-docs
+    operationsSorter: method
+    enabled: true
+
+handler:
+  show-vulnerable-properties: true
+
+### INTEGRATION ###
+feign:
+  request.enabled: true
+  response.enabled: true
+  client:
+    retryer:
+      max-attempts: 0
+      max-period: 5000
+      period: 1000
+
+### API ###
+api:
+  externa:
+    host: https://api-externa
+    base-path: /pch
+    consumer-key: dev-servico-exemplo
+    faqs:
+      buscar-por-id: /faqs/{id}
+      listar: /faqs
+      criar: /faqs
+      atualizar: /faqs/{id}

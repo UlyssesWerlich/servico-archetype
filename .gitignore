@@ -1,0 +1,9 @@
+/target/
+/buildSrc/
+/.sts4*/
+/.idea/
+/.gradle
+/*/build/
+/build/
+/.settings
+*.iml
